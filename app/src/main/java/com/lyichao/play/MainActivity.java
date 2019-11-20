@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+    @BindView(R.id.tool_bar)
+    Toolbar toolBar;
 
     private View headerView;
 
@@ -28,27 +32,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View view, float v) {
-                Log.d("MainActivity", "onDrawerSlide: 滑动");
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View view) {
-                Log.d("MainActivity", "onDrawerSlide: 打开");
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View view) {
-                Log.d("MainActivity", "onDrawerSlide: 关闭");
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-                Log.d("MainActivity", "onDrawerSlide: 状态改变");
-            }
-        });
+//        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+//            @Override
+//            public void onDrawerSlide(@NonNull View view, float v) {
+//                Log.d("MainActivity", "onDrawerSlide: 滑动");
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(@NonNull View view) {
+//                Log.d("MainActivity", "onDrawerSlide: 打开");
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(@NonNull View view) {
+//                Log.d("MainActivity", "onDrawerSlide: 关闭");
+//            }
+//
+//            @Override
+//            public void onDrawerStateChanged(int i) {
+//                Log.d("MainActivity", "onDrawerSlide: 状态改变");
+//            }
+//        });
 
         headerView = navigationView.getHeaderView(0);
         headerView.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.menu_app_update:
                         Toast.makeText(MainActivity.this, "应用更新", Toast.LENGTH_SHORT).show();
                         break;
@@ -75,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        toolBar.inflateMenu(R.menu.toolbar_menu);
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open,R.string.close);
+        drawerToggle.syncState();
+        drawerLayout.addDrawerListener(drawerToggle);
 
     }
 }
