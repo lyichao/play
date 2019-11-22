@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    //使用ButterKnife绑定控件
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
@@ -40,14 +41,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        //初始化侧滑控件
         initDrawerLayout();
+        //初始化选项卡
         initTabLayout();
 
 
     }
 
     private void initTabLayout() {
+        //创建ViewPagerAdapter实例，绑定viewpager
         PagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDrawerLayout() {
+        //获取侧滑控件中的头像内容，并设置点击事件
         headerView = navigationView.getHeaderView(0);
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "headerView OnClick", Toast.LENGTH_SHORT).show();
             }
         });
+        //设置侧滑控件列表的选中事件
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -81,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //初始化工具菜单控件
         toolBar.inflateMenu(R.menu.toolbar_menu);
 
+        //侧滑菜单状态控制
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolBar, R.string.open, R.string.close);
         drawerToggle.syncState();
         drawerLayout.addDrawerListener(drawerToggle);

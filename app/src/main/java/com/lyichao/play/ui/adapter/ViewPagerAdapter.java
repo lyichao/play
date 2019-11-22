@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
+    //初始化一个大小为4的数组对象，用来存放Fragment
     private List<FragmentInfo> mFragment = new ArrayList<>(4);
 
 
