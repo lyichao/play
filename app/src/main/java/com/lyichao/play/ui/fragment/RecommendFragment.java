@@ -21,11 +21,15 @@ import com.lyichao.play.ui.adapter.RecomendAppAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import bean.AppInfo;
 import bean.PageBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import di.DaggerRecommendComponent;
+import di.RecommendModule;
 import http.ApiService;
 import http.HttpManager;
 import presenter.RecommendPresenter;
@@ -42,9 +46,13 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
 
     private RecomendAppAdapter mAdapter;
 
-    private RecommendContract.Presenter mPresenter;
+//    private RecommendContract.Presenter mPresenter;
 
-    private ProgressDialog mProgressDialog;
+    @Inject
+    ProgressDialog mProgressDialog;
+
+    @Inject
+    RecommendContract.Presenter mPresenter;
 
     @Nullable
     @Override
@@ -53,9 +61,7 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         View view = inflater.inflate(R.layout.fragment_recomend, container, false);
         ButterKnife.bind(this, view);
 
-        mProgressDialog = new ProgressDialog(getActivity());
-
-        mPresenter = new RecommendPresenter(this);
+        DaggerRecommendComponent.builder().recommendModule(new RecommendModule(this)).build().inject(this);
 
         initData();
         return view;
