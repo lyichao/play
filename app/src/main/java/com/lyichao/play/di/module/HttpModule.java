@@ -1,18 +1,24 @@
-package http;
+package com.lyichao.play.di.module;
 
 import java.util.concurrent.TimeUnit;
 
-import http.ApiService;
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import com.lyichao.play.data.http.ApiService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HttpManager {
+@Module
+public class HttpModule {
 
-
-    public OkHttpClient getOkHttpClient(){
+    @Provides
+    @Singleton
+    public OkHttpClient providesOkHttpClient(){
 
 
 
@@ -39,8 +45,9 @@ public class HttpManager {
 
     }
 
-
-    public Retrofit getRetrofit(OkHttpClient okHttpClient){
+    @Provides
+    @Singleton
+    public Retrofit providesRetrofit(OkHttpClient okHttpClient){
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -52,5 +59,11 @@ public class HttpManager {
 
         return builder.build();
 
+    }
+
+    @Provides
+    @Singleton
+    public ApiService providesApiService(Retrofit retrofit){
+        return retrofit.create(ApiService.class);
     }
 }

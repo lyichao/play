@@ -1,16 +1,16 @@
-package di;
+package com.lyichao.play.di.module;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 
 import com.lyichao.play.ui.fragment.RecommendFragment;
 
 import dagger.Module;
 import dagger.Provides;
-import data.RecommendModel;
-import presenter.RecommendPresenter;
-import presenter.contract.RecommendContract;
+import com.lyichao.play.data.RecommendModel;
+import com.lyichao.play.data.http.ApiService;
+import com.lyichao.play.presenter.RecommendPresenter;
+import com.lyichao.play.presenter.contract.RecommendContract;
 
 @Module
 public class RecommendModule {
@@ -36,8 +36,8 @@ public class RecommendModule {
     }
 
     @Provides
-    public RecommendModel providesModel(){
-        return new RecommendModel();
+    public RecommendModel providesModel(ApiService apiService){
+        return new RecommendModel(apiService);
     }
 
     @Provides

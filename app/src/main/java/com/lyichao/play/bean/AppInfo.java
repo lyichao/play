@@ -1,7 +1,6 @@
-package bean;
+package com.lyichao.play.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class AppInfo implements Serializable {
 

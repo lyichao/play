@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -55,4 +56,6 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.0.2'
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'  //添加android缺失的部分javax注解
+
+    implementation 'com.android.support:multidex:1.0.0'
 }

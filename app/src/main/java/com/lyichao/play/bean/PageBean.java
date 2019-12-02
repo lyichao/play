@@ -1,4 +1,4 @@
-package bean;
+package com.lyichao.play.bean;
 
 import java.util.List;
 

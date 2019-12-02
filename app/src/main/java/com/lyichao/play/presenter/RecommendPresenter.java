@@ -1,11 +1,11 @@
-package presenter;
+package com.lyichao.play.presenter;
 
 import java.util.List;
 
-import bean.AppInfo;
-import bean.PageBean;
-import data.RecommendModel;
-import presenter.contract.RecommendContract;
+import com.lyichao.play.bean.AppInfo;
+import com.lyichao.play.bean.PageBean;
+import com.lyichao.play.data.RecommendModel;
+import com.lyichao.play.presenter.contract.RecommendContract;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

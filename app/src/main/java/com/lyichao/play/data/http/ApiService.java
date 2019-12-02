@@ -1,7 +1,7 @@
-package http;
+package com.lyichao.play.data.http;
 
-import bean.AppInfo;
-import bean.PageBean;
+import com.lyichao.play.bean.AppInfo;
+import com.lyichao.play.bean.PageBean;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

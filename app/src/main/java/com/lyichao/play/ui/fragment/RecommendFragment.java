@@ -1,5 +1,6 @@
 package com.lyichao.play.ui.fragment;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,28 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.lyichao.play.AppApplication;
 import com.lyichao.play.R;
+import com.lyichao.play.di.component.AppComponent;
 import com.lyichao.play.ui.adapter.RecomendAppAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import bean.AppInfo;
-import bean.PageBean;
+import com.lyichao.play.bean.AppInfo;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import di.DaggerRecommendComponent;
-import di.RecommendModule;
-import http.ApiService;
-import http.HttpManager;
-import presenter.RecommendPresenter;
-import presenter.contract.RecommendContract;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+//import com.lyichao.play.di.component.DaggerRecommendComponent;
+import com.lyichao.play.di.component.DaggerRecommendComponent;
+import com.lyichao.play.di.module.RecommendModule;
+import com.lyichao.play.presenter.contract.RecommendContract;
 
 import static android.content.ContentValues.TAG;
 
@@ -61,7 +56,12 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         View view = inflater.inflate(R.layout.fragment_recomend, container, false);
         ButterKnife.bind(this, view);
 
-        DaggerRecommendComponent.builder().recommendModule(new RecommendModule(this)).build().inject(this);
+//        DaggerRecommendComponent.builder().recommendModule(new RecommendModule(this)).build().inject(this);
+
+
+
+        DaggerRecommendComponent.builder().appComponent(((AppApplication)getActivity().getApplication()).getAppComponent())
+                .recommendModule(new RecommendModule(this)).build().inject(this);
 
         initData();
         return view;

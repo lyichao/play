@@ -1,9 +1,9 @@
-package presenter.contract;
+package com.lyichao.play.presenter.contract;
 
 import com.lyichao.play.ui.BaseView;
 
-import bean.AppInfo;
-import presenter.BasePresenter;
+import com.lyichao.play.bean.AppInfo;
+import com.lyichao.play.presenter.BasePresenter;
 import java.util.List;
 
 public interface RecommendContract {

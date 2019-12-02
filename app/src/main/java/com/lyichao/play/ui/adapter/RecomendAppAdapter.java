@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import bean.AppInfo;
+import com.lyichao.play.bean.AppInfo;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
