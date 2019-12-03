@@ -57,8 +57,10 @@ dependencies {
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'  //添加android缺失的部分javax注解
 
-
     // icon
     implementation 'com.mikepenz:iconics-core:2.8.1@aar'
     implementation 'com.mikepenz:ionicons-typeface:2.0.1.2@aar'
+
+    //pathview
+    implementation 'com.eftimoff:android-pathview:1.0.8@aar'
 }
