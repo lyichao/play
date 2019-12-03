@@ -22,12 +22,6 @@ public class RecommendModule {
         this.mView = view;
     }
 
-    @Provides
-    public RecommendContract.Presenter providesPresenter(RecommendContract.View view,RecommendModel model){
-
-        return new RecommendPresenter(view,model);
-
-    }
 
     @Provides
     public RecommendContract.View providesView(){

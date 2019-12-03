@@ -15,12 +15,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.lyichao.play.R;
+import com.lyichao.play.di.component.AppComponent;
 import com.lyichao.play.ui.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     //使用ButterKnife绑定控件
     @BindView(R.id.drawer_layout)
@@ -38,15 +39,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+    }
+
+    @Override
+    public int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void setupActivityComponent(AppComponent appComponent) {
+
+    }
+
+    @Override
+    public void init() {
         //初始化侧滑控件
         initDrawerLayout();
         //初始化选项卡
         initTabLayout();
-
-
     }
 
     private void initTabLayout() {

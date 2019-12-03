@@ -6,22 +6,21 @@ import com.lyichao.play.bean.AppInfo;
 import com.lyichao.play.bean.PageBean;
 import com.lyichao.play.data.RecommendModel;
 import com.lyichao.play.presenter.contract.RecommendContract;
+
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RecommendPresenter implements RecommendContract.Presenter{
+public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendContract.View> {
 
-    private RecommendModel mModel;
-
-    private RecommendContract.View mView;
-
-    public RecommendPresenter(RecommendContract.View view,RecommendModel model) {
-        this.mView = view;
-        mModel = model;
+    @Inject
+    public RecommendPresenter(RecommendModel model, RecommendContract.View view) {
+        super(model, view);
     }
 
-    @Override
+
     public void requestDatas() {
 
         mView.showLoading();

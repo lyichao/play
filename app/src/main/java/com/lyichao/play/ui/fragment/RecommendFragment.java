@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.lyichao.play.AppApplication;
 import com.lyichao.play.R;
 import com.lyichao.play.di.component.AppComponent;
+import com.lyichao.play.presenter.RecommendPresenter;
 import com.lyichao.play.ui.adapter.RecomendAppAdapter;
 
 import java.util.List;
@@ -35,39 +36,32 @@ import com.lyichao.play.presenter.contract.RecommendContract;
 
 import static android.content.ContentValues.TAG;
 
-public class RecommendFragment extends Fragment implements RecommendContract.View{
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View{
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
 
     private RecomendAppAdapter mAdapter;
 
-//    private RecommendContract.Presenter mPresenter;
 
     @Inject
     ProgressDialog mProgressDialog;
 
-    @Inject
-    RecommendContract.Presenter mPresenter;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_recomend, container, false);
-        ButterKnife.bind(this, view);
-
-//        DaggerRecommendComponent.builder().recommendModule(new RecommendModule(this)).build().inject(this);
-
-
-
-        DaggerRecommendComponent.builder().appComponent(((AppApplication)getActivity().getApplication()).getAppComponent())
-                .recommendModule(new RecommendModule(this)).build().inject(this);
-
-        initData();
-        return view;
+    public int setLayout() {
+        return R.layout.fragment_recomend;
     }
 
-    private void  initData(){
+    @Override
+    public void setupActivityComponent(AppComponent appComponent) {
+
+        DaggerRecommendComponent.builder().appComponent(appComponent)
+                .recommendModule(new RecommendModule(this)).build().inject(this);
+
+    }
+
+    @Override
+    public void init() {
 
         mPresenter.requestDatas();
 
