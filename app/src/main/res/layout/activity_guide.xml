@@ -42,6 +42,7 @@
             android:layout_height="15dp" />
 
         <ImageView
+
             android:id="@+id/img_icon2"
             android:src="@color/colorAccent"
             android:layout_width="15dp"
