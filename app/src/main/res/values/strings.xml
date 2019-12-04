@@ -7,4 +7,10 @@
     <string name="fragment_games">游戏</string>
     <string name="fragment_ranking">排行</string>
     <string name="fragment_recomend">推荐</string>
+    <string name="btn_enter">立即体验</string>
+    <string name="text">这是标题文字</string>
+    <string name="guide1">全新改版</string>
+    <string name="guide2">视频购物</string>
+    <string name="guide3">评价晒图</string>
+
 </resources>

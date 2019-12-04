@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mPathView.getPathAnimator()
-                .delay(10)
+                .delay(50)
                 .duration(2000)
                 .interpolator(new AccelerateDecelerateInterpolator())
                 .listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
