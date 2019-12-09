@@ -1,5 +1,6 @@
 package com.lyichao.play.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.lyichao.play.R;
+import com.lyichao.play.commom.Constant;
+import com.lyichao.play.commom.util.ACache;
 import com.lyichao.play.ui.adapter.GuideFragmentAdapter;
 import com.lyichao.play.ui.fragment.GuideFragment;
 
@@ -19,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GuideActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
@@ -50,9 +54,10 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
 
     private void initData() {
 
-
+        //创建ArrayList对象
         List<Fragment> fragment = new ArrayList<>();
 
+        //往fragment添加数据
         fragment.add(GuideFragment.newInstance(R.drawable.guide_1, R.color.color_bg_guide1, R.string.guide1));
         fragment.add(GuideFragment.newInstance(R.drawable.guide_2, R.color.color_bg_guide2, R.string.guide2));
         fragment.add(GuideFragment.newInstance(R.drawable.guide_3, R.color.color_bg_guide3, R.string.guide3));
@@ -61,7 +66,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
         //创建一个GuideFragmentAdapter实例，并赋值给mAdapter
         mAdapter = new GuideFragmentAdapter(getSupportFragmentManager());
 
-        //添加数据
+        //将mAdapter和fragment进行关联
         mAdapter.setFragments(fragment);
 
         //设置viewpager的初始页
@@ -93,7 +98,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
             mImgIcon2.setImageResource(R.color.colorAccent);
             mImgIcon3.setImageResource(R.color.color_white);
         }
-
+        //判断最后一页时显示按钮，否则隐藏
         mBtnEnter.setVisibility((position == mAdapter.getCount() - 1) ? View.VISIBLE : View.GONE);
 
     }
@@ -106,5 +111,12 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    @OnClick(R.id.btn_enter)
+    public void onClick(){
+        ACache.get(this).put(Constant.IS_SHOW_GUIDE,"0");
+        startActivity(new Intent(this,MainActivity.class));
+        this.finish();
     }
 }

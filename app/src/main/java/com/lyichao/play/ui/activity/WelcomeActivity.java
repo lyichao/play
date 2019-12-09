@@ -7,6 +7,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.eftimoff.androipathview.PathView;
 import com.lyichao.play.R;
+import com.lyichao.play.commom.Constant;
+import com.lyichao.play.commom.util.ACache;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +39,16 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void jump() {
-        startActivity(new Intent(this,MainActivity.class));
+
+        String isShowGuide = ACache.get(this).getAsString(Constant.IS_SHOW_GUIDE);
+
+        if (null == isShowGuide){
+            startActivity(new Intent(this,GuideActivity.class));
+        }else {
+            startActivity(new Intent(this,MainActivity.class));
+
+        }
+
         this.finish();
     }
 }

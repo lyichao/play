@@ -32,6 +32,7 @@ public class GuideFragment extends Fragment {
     public static final String COLOR_ID = "COLOR_ID";
     public static final String TEXT_ID = "TEXT_ID";
 
+    //创建静态方法，用于存储图片、背景色、文本资源
     public static GuideFragment newInstance(int imgResId, int bgColorResId, int textResId) {
 
         GuideFragment fragment = new GuideFragment();
