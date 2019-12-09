@@ -12,6 +12,10 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendContract.View> {
 
@@ -23,27 +27,61 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
 
     public void requestDatas() {
 
-        mView.showLoading();
+        mModel.getApps()
+                //被订阅者切换到io线程中，处理网络请求（耗时操作）
+                .subscribeOn(Schedulers.io())
+                //订阅者切换到主线程中更新数据
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PageBean<AppInfo>>() {
 
-        mModel.getApps(new Callback<PageBean<AppInfo>>() {
+            //订阅前调用
             @Override
-            public void onResponse(Call<PageBean<AppInfo>> call, Response<PageBean<AppInfo>> response) {
+            public void onStart() {
+                super.onStart();
+                mView.showLoading();
+            }
 
+            @Override
+            public void onCompleted() {
+                mView.dimissLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.dimissLoading();
+            }
+
+            @Override
+            public void onNext(PageBean<AppInfo> response) {
                 if(response != null){
-                    mView.showResult((List<AppInfo>) response.body().getDatas());
+                    mView.showResult((List<AppInfo>) response.getDatas());
                 }else {
                     mView.showNoDatas();
                 }
-                mView.dimissLoading();
-
-            }
-
-            @Override
-            public void onFailure(Call<PageBean<AppInfo>> call, Throwable t) {
-
-                mView.dimissLoading();
-                mView.showError(t.getMessage());
             }
         });
+
+//        mView.showLoading();
+//
+//        mModel.getApps(new Callback<PageBean<AppInfo>>() {
+//            @Override
+//            public void onResponse(Call<PageBean<AppInfo>> call, Response<PageBean<AppInfo>> response) {
+//
+//                if(response != null){
+//                    mView.showResult((List<AppInfo>) response.body().getDatas());
+//                }else {
+//                    mView.showNoDatas();
+//                }
+//                mView.dimissLoading();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PageBean<AppInfo>> call, Throwable t) {
+//
+//                mView.dimissLoading();
+//                mView.showError(t.getMessage());
+//            }
+//        });
     }
 }

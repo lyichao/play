@@ -58,4 +58,7 @@ dependencies {
     //pathview
     implementation 'com.eftimoff:android-pathview:1.0.8@aar'
     implementation 'com.android.support:support-v4:28.0.0'
+    //RxJava
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.1.6'
 }
