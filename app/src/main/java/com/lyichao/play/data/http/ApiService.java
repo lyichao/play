@@ -1,8 +1,9 @@
 package com.lyichao.play.data.http;
 
 import com.lyichao.play.bean.AppInfo;
+import com.lyichao.play.bean.BaseBean;
 import com.lyichao.play.bean.PageBean;
-import retrofit2.Call;
+
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -19,7 +20,7 @@ public interface ApiService {
 //    public Call<PageBean<AppInfo>> getApps(@Query("p") String jsonParam);
 
     @GET("featured")
-    public Observable<PageBean<AppInfo>> getApps(@Query("p") String jsonParam);
+    public Observable<BaseBean<PageBean<AppInfo>>> getApps(@Query("p") String jsonParam);
 
 
 }

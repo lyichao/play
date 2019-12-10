@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lyichao.play.bean.AppInfo;
 import com.lyichao.play.bean.PageBean;
+import com.lyichao.play.commom.rx.RxHttpResponseCompat;
 import com.lyichao.play.data.RecommendModel;
 import com.lyichao.play.presenter.contract.RecommendContract;
 
@@ -28,38 +29,28 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
     public void requestDatas() {
 
         mModel.getApps()
-                //被订阅者切换到io线程中，处理网络请求（耗时操作）
-                .subscribeOn(Schedulers.io())
-                //订阅者切换到主线程中更新数据
-                .observeOn(AndroidSchedulers.mainThread())
+//                //被订阅者切换到io线程中，处理网络请求（耗时操作）
+//                .subscribeOn(Schedulers.io())
+//                //订阅者切换到主线程中更新数据
+//                .observeOn(AndroidSchedulers.mainThread())
+
+                .compose(RxHttpResponseCompat.<PageBean<AppInfo>>compatResult())
                 .subscribe(new Subscriber<PageBean<AppInfo>>() {
+                    @Override
+                    public void onCompleted() {
 
-            //订阅前调用
-            @Override
-            public void onStart() {
-                super.onStart();
-                mView.showLoading();
-            }
+                    }
 
-            @Override
-            public void onCompleted() {
-                mView.dimissLoading();
-            }
+                    @Override
+                    public void onError(Throwable e) {
 
-            @Override
-            public void onError(Throwable e) {
-                mView.dimissLoading();
-            }
+                    }
 
-            @Override
-            public void onNext(PageBean<AppInfo> response) {
-                if(response != null){
-                    mView.showResult((List<AppInfo>) response.getDatas());
-                }else {
-                    mView.showNoDatas();
-                }
-            }
-        });
+                    @Override
+                    public void onNext(PageBean<AppInfo> appInfoPageBean) {
+
+                    }
+                });
 
 //        mView.showLoading();
 //

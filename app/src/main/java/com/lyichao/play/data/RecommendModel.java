@@ -1,6 +1,7 @@
 package com.lyichao.play.data;
 
 import com.lyichao.play.bean.AppInfo;
+import com.lyichao.play.bean.BaseBean;
 import com.lyichao.play.bean.PageBean;
 import com.lyichao.play.data.http.ApiService;
 import retrofit2.Callback;
@@ -15,7 +16,7 @@ public class RecommendModel {
         this.mApiService = apiService;
     }
 
-    public Observable<PageBean<AppInfo>> getApps(){
+    public Observable<BaseBean<PageBean<AppInfo>>> getApps(){
 
 //        HttpManager manager = new HttpManager();
 //
