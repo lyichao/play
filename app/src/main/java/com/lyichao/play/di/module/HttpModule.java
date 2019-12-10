@@ -1,11 +1,16 @@
 package com.lyichao.play.di.module;
 
+import android.app.Application;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+
+import com.lyichao.play.AppApplication;
+import com.lyichao.play.commom.rx.RxErrorHandle;
 import com.lyichao.play.data.http.ApiService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -65,5 +70,12 @@ public class HttpModule {
     @Singleton
     public ApiService providesApiService(Retrofit retrofit){
         return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public RxErrorHandle providesErrorHandle(Application application){
+
+        return new RxErrorHandle(application);
     }
 }

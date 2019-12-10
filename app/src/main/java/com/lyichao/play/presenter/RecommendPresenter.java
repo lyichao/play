@@ -4,9 +4,13 @@ import java.util.List;
 
 import com.lyichao.play.bean.AppInfo;
 import com.lyichao.play.bean.PageBean;
+import com.lyichao.play.commom.rx.RxErrorHandle;
 import com.lyichao.play.commom.rx.RxHttpResponseCompat;
+import com.lyichao.play.commom.rx.subscriber.ErrorHandleSubscriber;
 import com.lyichao.play.data.RecommendModel;
 import com.lyichao.play.presenter.contract.RecommendContract;
+
+import org.xml.sax.ErrorHandler;
 
 import javax.inject.Inject;
 
@@ -20,10 +24,14 @@ import rx.schedulers.Schedulers;
 
 public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendContract.View> {
 
+    private RxErrorHandle mErrorHandler;
+
     @Inject
-    public RecommendPresenter(RecommendModel model, RecommendContract.View view) {
+    public RecommendPresenter(RecommendModel model, RecommendContract.View view, RxErrorHandle errorHandle) {
         super(model, view);
+        this.mErrorHandler = errorHandle;
     }
+
 
 
     public void requestDatas() {
@@ -35,21 +43,30 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
 //                .observeOn(AndroidSchedulers.mainThread())
 
                 .compose(RxHttpResponseCompat.<PageBean<AppInfo>>compatResult())
-                .subscribe(new Subscriber<PageBean<AppInfo>>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(new ErrorHandleSubscriber<PageBean<AppInfo>>(mErrorHandler) {
 
+                    @Override
+                    public void onStart() {
+                        mView.showLoading();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onCompleted() {
+                        mView.dimissLoading();
 
                     }
 
                     @Override
                     public void onNext(PageBean<AppInfo> appInfoPageBean) {
+                        if(appInfoPageBean != null){
+                            mView.showResult((List<AppInfo>) appInfoPageBean.getDatas());
+                        }else {
+                            mView.showNoDatas();
+                        }
+                        mView.dimissLoading();
 
                     }
+
                 });
 
 //        mView.showLoading();
