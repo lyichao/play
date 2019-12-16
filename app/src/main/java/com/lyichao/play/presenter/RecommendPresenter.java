@@ -1,5 +1,8 @@
 package com.lyichao.play.presenter;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+
 import java.util.List;
 
 import com.lyichao.play.bean.AppInfo;
@@ -7,6 +10,7 @@ import com.lyichao.play.bean.PageBean;
 import com.lyichao.play.commom.rx.RxErrorHandle;
 import com.lyichao.play.commom.rx.RxHttpResponseCompat;
 import com.lyichao.play.commom.rx.subscriber.ErrorHandleSubscriber;
+import com.lyichao.play.commom.rx.subscriber.ProgressDialogSubcriber;
 import com.lyichao.play.data.RecommendModel;
 import com.lyichao.play.presenter.contract.RecommendContract;
 
@@ -36,6 +40,15 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
 
     public void requestDatas() {
 
+        Activity activity = null;
+
+        if (mView instanceof Fragment){
+            activity = ((Fragment)mView).getActivity();
+        }else {
+            activity = (Activity) mView;
+        }
+
+
         mModel.getApps()
 //                //被订阅者切换到io线程中，处理网络请求（耗时操作）
 //                .subscribeOn(Schedulers.io())
@@ -43,30 +56,16 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
 //                .observeOn(AndroidSchedulers.mainThread())
 
                 .compose(RxHttpResponseCompat.<PageBean<AppInfo>>compatResult())
-                .subscribe(new ErrorHandleSubscriber<PageBean<AppInfo>>(mErrorHandler) {
-
-                    @Override
-                    public void onStart() {
-                        mView.showLoading();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        mView.dimissLoading();
-
-                    }
-
+                .subscribe(new ProgressDialogSubcriber<PageBean<AppInfo>>(mView,mErrorHandler) {
                     @Override
                     public void onNext(PageBean<AppInfo> appInfoPageBean) {
-                        if(appInfoPageBean != null){
-                            mView.showResult((List<AppInfo>) appInfoPageBean.getDatas());
-                        }else {
-                            mView.showNoDatas();
-                        }
-                        mView.dimissLoading();
-
+                        mView.showResult((List<AppInfo>) appInfoPageBean.getDatas());
                     }
 
+//                    @Override
+//                    protected boolean isShowDialog() {
+//                        return true;
+//                    }
                 });
 
 //        mView.showLoading();

@@ -22,6 +22,8 @@ public abstract class ErrorHandleSubscriber<T> extends DefaultSubscriber<T>{
     @Override
     public void onError(Throwable e) {
 
+        e.printStackTrace();
+
         BaseException exception = mRxErrorHandle.handleError(e);
 
         mRxErrorHandle.showErrorMessage(exception);

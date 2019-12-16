@@ -39,8 +39,8 @@ public class RxHttpResponseCompat {
                         }
 
                     }
-                }).observeOn(Schedulers.io())   //被订阅者切换到io线程中，处理网络请求（耗时操作）
-                        .subscribeOn(AndroidSchedulers.mainThread());   //订阅者切换到主线程中更新数据
+                }).subscribeOn(Schedulers.io())   //被订阅者切换到io线程中，处理网络请求（耗时操作）
+                 .observeOn(AndroidSchedulers.mainThread());   //订阅者切换到主线程中更新数据
             }
         };
     }
