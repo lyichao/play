@@ -6,6 +6,8 @@ import com.lyichao.play.bean.PageBean;
 import com.lyichao.play.bean.requestBean.LoginRequestBean;
 
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -25,8 +27,12 @@ public interface ApiService {
     @GET("featured2")
     public Observable<BaseBean<PageBean<AppInfo>>> getApps(@Query("p") String jsonParam);
 
-    @GET("login")
+    @POST("login")
     public Observable<BaseBean> login(@Body LoginRequestBean bean);
+
+    @FormUrlEncoded //FormBody
+    @POST("login")
+    public void login2(@Field("phone") String phone);
 
     @GET("toplist")
     public Observable<BaseBean> toplist(@Query("page") int page);
