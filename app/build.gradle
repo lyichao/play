@@ -61,4 +61,6 @@ dependencies {
     //RxJava
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.1.6'
+
+    implementation 'cn.pedant.sweetalert:library:1.3'
 }

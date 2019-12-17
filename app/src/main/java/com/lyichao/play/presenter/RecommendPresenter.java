@@ -11,6 +11,7 @@ import com.lyichao.play.commom.rx.RxErrorHandle;
 import com.lyichao.play.commom.rx.RxHttpResponseCompat;
 import com.lyichao.play.commom.rx.subscriber.ErrorHandleSubscriber;
 import com.lyichao.play.commom.rx.subscriber.ProgressDialogSubcriber;
+import com.lyichao.play.commom.rx.subscriber.ProgressSubcriber;
 import com.lyichao.play.data.RecommendModel;
 import com.lyichao.play.presenter.contract.RecommendContract;
 
@@ -28,12 +29,10 @@ import rx.schedulers.Schedulers;
 
 public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendContract.View> {
 
-    private RxErrorHandle mErrorHandler;
 
     @Inject
-    public RecommendPresenter(RecommendModel model, RecommendContract.View view, RxErrorHandle errorHandle) {
+    public RecommendPresenter(RecommendModel model, RecommendContract.View view) {
         super(model, view);
-        this.mErrorHandler = errorHandle;
     }
 
 
@@ -50,13 +49,13 @@ public class RecommendPresenter extends BasePresenter<RecommendModel,RecommendCo
 
 
         mModel.getApps()
-//                //被订阅者切换到io线程中，处理网络请求（耗时操作）
+//                //被订阅者切换到io线程中，处理网络请求（耗时操作）   `
 //                .subscribeOn(Schedulers.io())
 //                //订阅者切换到主线程中更新数据
 //                .observeOn(AndroidSchedulers.mainThread())
 
                 .compose(RxHttpResponseCompat.<PageBean<AppInfo>>compatResult())
-                .subscribe(new ProgressDialogSubcriber<PageBean<AppInfo>>(mView,mErrorHandler) {
+                .subscribe(new ProgressSubcriber<PageBean<AppInfo>>(mContext,mView) {
                     @Override
                     public void onNext(PageBean<AppInfo> appInfoPageBean) {
                         mView.showResult((List<AppInfo>) appInfoPageBean.getDatas());

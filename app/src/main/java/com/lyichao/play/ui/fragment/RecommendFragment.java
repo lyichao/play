@@ -36,7 +36,7 @@ import com.lyichao.play.presenter.contract.RecommendContract;
 
 import static android.content.ContentValues.TAG;
 
-public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View{
+public class RecommendFragment extends ProgressFragment<RecommendPresenter> implements RecommendContract.View{
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
 
@@ -100,14 +100,7 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     }
 
     @Override
-    public void showLoading() {
-        mProgressDialog.show();
-    }
-
-    @Override
-    public void dimissLoading() {
-        if(mProgressDialog.isShowing()){
-            mProgressDialog.dismiss();
-        }
+    public void onEmptyViewClick() {
+        mPresenter.requestDatas();
     }
 }

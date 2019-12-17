@@ -25,7 +25,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     private AppApplication mApplication;
 
-    private ProgressDialog mProgressDialog;
 
     @Inject
     T mPresenter;
@@ -63,23 +62,23 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         }
     }
 
+    @Override
+    public void showLoading() {
+    }
+
+    @Override
+    public void dismissLoading() {
+    }
+
+    @Override
+    public void showError(String msg) {
+    }
+
     public abstract int setLayout();
 
     public abstract void setupActivityComponent(AppComponent appComponent);
 
     public abstract void init();
 
-    @Override
-    public void showLoading() {
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("loading.....");
-        mProgressDialog.show();
-    }
 
-    @Override
-    public void dimissLoading() {
-        if(mProgressDialog.isShowing()){
-            mProgressDialog.dismiss();
-        }
-    }
 }

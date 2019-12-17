@@ -4,56 +4,56 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.lyichao.play.commom.rx.RxErrorHandle;
+import com.lyichao.play.commom.util.ProgressDialogHandler;
 import com.lyichao.play.ui.BaseView;
 
-public abstract class ProgressDialogSubcriber<T> extends ErrorHandleSubscriber<T>{
+public abstract class ProgressDialogSubcriber<T> extends ErrorHandleSubscriber<T> implements ProgressDialogHandler.OnProgressCancelListener{
 
-    Context mContext;
 
-    private ProgressDialog mProgressDialog;
+    private ProgressDialogHandler mProgressDialogHandler;
 
-    private BaseView mBaseView;
 
-    public ProgressDialogSubcriber(BaseView view, RxErrorHandle rxErrorHandle){
-        super(rxErrorHandle);
-        this.mBaseView = view;
+    public ProgressDialogSubcriber(Context context) {
+        super(context);
+
+        mProgressDialogHandler = new ProgressDialogHandler(mContext,true,this);
+    }
+
+    protected boolean isShowProgressDialog(){
+        return  true;
+    }
+
+    @Override
+    public void onCancelProgress() {
+        unsubscribe();
     }
 
     @Override
     public void onStart() {
-        if(isShowDialog()){
-            showProgressDialog();
 
+        if(isShowProgressDialog()){
+            this.mProgressDialogHandler.showProgressDialog();
         }
+
     }
 
     @Override
     public void onCompleted() {
-        if(isShowDialog()){
-            dismissProgressDialog();
+
+
+
+        if(isShowProgressDialog()){
+            this.mProgressDialogHandler.dismissProgressDialog();
         }
     }
 
     @Override
     public void onError(Throwable e) {
         super.onError(e);
-        if(isShowDialog()){
-            dismissProgressDialog();
+
+        if(isShowProgressDialog()){
+            this.mProgressDialogHandler.dismissProgressDialog();
         }
-    }
 
-
-
-    protected boolean isShowDialog(){
-
-        return true;
-    }
-
-    private void showProgressDialog(){
-        mBaseView.showLoading();
-    }
-
-    private void dismissProgressDialog(){
-        mBaseView.dimissLoading();
     }
 }
