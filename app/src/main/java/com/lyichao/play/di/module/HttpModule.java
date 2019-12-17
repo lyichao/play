@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 
 import com.lyichao.play.AppApplication;
+import com.lyichao.play.commom.http.CommonParamsInterceptor;
 import com.lyichao.play.commom.rx.RxErrorHandle;
 import com.lyichao.play.data.http.ApiService;
 import okhttp3.OkHttpClient;
@@ -40,6 +41,7 @@ public class HttpModule {
                 // HeadInterceptor实现了Interceptor，用来往Request Header添加一些业务相关数据，如APP版本，token信息
 //                .addInterceptor(new HeadInterceptor())
                 .addInterceptor(logging)
+                .addInterceptor(new CommonParamsInterceptor())
                 // 连接超时时间设置
                 .connectTimeout(10, TimeUnit.SECONDS)
                 // 读取超时时间设置
